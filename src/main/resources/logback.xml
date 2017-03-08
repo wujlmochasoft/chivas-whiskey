@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true" scan="true" scanPeriod="30 seconds">
+
+    <!--日志路径 -->
+    <property name="logback.logs.path" value="./logs" />
+    <!--项目名 -->
+    <property name="logback.project.name" value="chivas-whiskey" />
+
+    <!-- 输出到控制台 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <!-- 输出到文件 -->
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <!-- 日志级别过滤 -->
+        <!-- <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>匹配处理
+            <onMismatch>DENY</onMismatch>不匹配拒绝
+        </filter> -->
+        <!-- 临界值过滤  -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <!-- Log文件名 -->
+        <file>${logback.logs.path}/${logback.project.name}/${logback.project.name}.log</file>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <!-- 每天生成一个文件 -->
+    <appender name="FILE_DAY"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- Log文件名 -->
+        <file>${logback.logs.path}/${logback.project.name}/${logback.project.name}.log
+        </file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>
+                ${logback.logs.path}/${logback.project.name}/archive/logback-%d.log
+            </FileNamePattern>
+            <MaxIndex>30</MaxIndex>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <!-- loggers -->
+    <!--<logger name="logback.HelloWorld1" level="DEBUG" additivity="false">-->
+        <!--<appender-ref ref="FILE" />-->
+    <!--</logger>-->
+
+    <!--<logger name="logback.HelloWorld2" level="DEBUG">-->
+        <!--<appender-ref ref="FILE_DAY" />-->
+    <!--</logger>-->
+
+    <!-- root -->
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+    </root>
+
+</configuration>
